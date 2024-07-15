@@ -16,13 +16,13 @@ from spatial_kde.utils import Bounds
 
 
 def spatial_kernel_density(
-    points: gpd.GeoDataFrame,
-    radius: float,
-    output_path: str,
-    output_pixel_size: float,
-    output_driver: str = "GTiff",
-    weight_col: Optional[str] = None,
-    scaled: bool = False,
+        points: gpd.GeoDataFrame,
+        radius: float,
+        output_path: str,
+        output_pixel_size: float,
+        output_driver: str = "GTiff",
+        weight_col: Optional[str] = None,
+        scaled: bool = False,
 ) -> None:
     """Calculate Kernel Density / heatmap from ``points``
 
@@ -117,23 +117,23 @@ def spatial_kernel_density(
     # create the output raster
     z = z_scalar.reshape(xc.shape)
     with rasterio.open(
-        fp=output_path,
-        mode="w",
-        driver=output_driver,
-        height=z.shape[0],
-        width=z.shape[1],
-        count=1,
-        dtype=z.dtype,
-        crs=CRS.from_user_input(points.crs),
-        transform=rasterio.transform.from_bounds(
-            west=bounds.min_x,
-            south=bounds.min_y,
-            east=bounds.max_x,
-            north=bounds.max_y,
-            width=z.shape[1],
+            fp=output_path,
+            mode="w",
+            driver=output_driver,
             height=z.shape[0],
-        ),
-        nodata=ndv,
+            width=z.shape[1],
+            count=1,
+            dtype=z.dtype,
+            crs=CRS.from_user_input(points.crs),
+            transform=rasterio.transform.from_bounds(
+                west=bounds.min_x,
+                south=bounds.min_y,
+                east=bounds.max_x,
+                north=bounds.max_y,
+                width=z.shape[1],
+                height=z.shape[0],
+            ),
+            nodata=ndv,
     ) as dst:
         # numpy arrays start at the "bottom left", whereas rasters are written
         # from the "top left", hence flipping the array up-down before writing
