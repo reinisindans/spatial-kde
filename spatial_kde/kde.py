@@ -101,7 +101,7 @@ def spatial_kernel_density(
     for row in kde_pnts.itertuples():
         centre = [xy[row.Index]]
         corresponding_points = points_np_array[row.nn]
-        distances = distance.cdist(centre, corresponding_points, 'euclidean').flatten()
+        distances = distance.cdist(centre, corresponding_points, "euclidean").flatten()
 
         weights = None
         if weight_col:
